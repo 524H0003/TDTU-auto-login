@@ -1,0 +1,49 @@
+{
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*": "$(basename).spec.*, $(basename).spec.util.*, $(basename).cye.*, $(basename).cyc.*, $(basename).client.*, $(basename).util.*",
+        "package.json": "LICENSE*,*.md,.gitignore,.env*,.*rc,*.config.js,*.config.ts,*.config.json,*.config.mjs,*.config.cjs,*.config.yaml,*.config.yml,*lock.yaml,*file,manifest.json",
+        "*config.json": "$(capture)config.*.json"
+    },
+    "files.exclude": {
+        "**/.git": false,
+        "**/.svn": false,
+        "**/.hg": false,
+        "**/.DS_Store": false,
+        "**/Thumbs.db": false,
+        "**/dist": false,
+        "**/node_modules": false,
+        "**/pnpm-lock.yaml": false,
+        ".pnpm-store": false,
+        ".tsup": false,
+        "docs": false,
+        ".next": false,
+        "reports": false,
+        "next-env.d.ts": false,
+        "src/graphQL": false
+    },
+    "svg.preview.background": "transparent",
+    "explorerExclude.backup": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/dist": true,
+        "**/node_modules": true,
+        "**/pnpm-lock.yaml": true,
+        ".pnpm-store": true,
+        ".tsup": true,
+        "docs": true,
+        ".next": true,
+        "reports": true,
+        "next-env.d.ts": true,
+        "src/graphQL": false
+    },
+    "editor.rulers": [
+        80
+    ],
+    "editor.wordWrap": "on",
+    "typescript.tsserver.log": "verbose",
+    "editor.foldingImportsByDefault": true
+}
