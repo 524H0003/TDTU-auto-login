@@ -1,0 +1,15 @@
+{
+  "name": "TDTU Auto Login",
+  "description": "Extension Keeps TDTU pages always login",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["storage", "scripting", "alarms", "tabs"],
+  "host_permissions": ["*://*.tdtu.edu.vn/*"],
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}
