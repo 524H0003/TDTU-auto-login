@@ -1,0 +1,21 @@
+{
+  "endOfLine": "lf",
+  "importOrder": ["^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "proseWrap": "always",
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-groovy",
+    "prettier-plugin-embed",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrderParserPlugins": ["typescript", "decorators-legacy", "jsx"],
+  "embeddedMarkdownComments": ["tw", "tx"],
+  "printWidth": 80,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "tailwindAttributes": ["/.*(C|c)lassName/"]
+}
