@@ -19,7 +19,7 @@
     "@semantic-release/npm": "^13.1.4",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/chrome": "^0.1.37",
-    "@types/node": "^25.3.1",
+    "@types/node": "^25.3.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "commitizen": "^4.3.1",

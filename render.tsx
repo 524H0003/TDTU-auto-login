@@ -17,7 +17,7 @@ const fullHtml = (
 );
 
 buildSync({
-  entryPoints: ["src/**/*.ts", ],
+  entryPoints: ["src/**/*.ts"],
   bundle: false,
   outdir: "./dist",
   format: "cjs",
