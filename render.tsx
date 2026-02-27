@@ -16,11 +16,11 @@ const fullHtml = (
 );
 
 buildSync({
-  entryPoints: ["src/**/*.ts*"],
+  entryPoints: ["src/**/*.ts", "src/index.tsx"],
   bundle: true,
   outdir: "./dist",
   format: "cjs",
-  minify: false,
+  minify: true,
   sourcemap: false,
   platform: "browser",
 });
