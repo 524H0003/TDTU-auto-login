@@ -33,7 +33,7 @@
         "assets": [
           {
             "path": "release.zip",
-            "name": "TDTU Auto Login v${nextRelease.version}"
+            "name": "TDTU Auto Login v${nextRelease.version}.zip"
           }
         ]
       }
