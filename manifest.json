@@ -1,7 +1,7 @@
 {
   "name": "TDTU Auto Login",
   "description": "Extension Keeps TDTU pages always login",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 3,
   "action": {
     "default_popup": "./dist/popup.html",
