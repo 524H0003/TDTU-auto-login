@@ -12,6 +12,12 @@
       }
     ],
     [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pnpm build && node scripts/release.ts ${nextRelease.version}"
+      }
+    ],
+    [
       "@semantic-release/git",
       {
         "assets": [
@@ -22,18 +28,12 @@
       }
     ],
     [
-      "@semantic-release/exec",
-      {
-        "prepareCmd": "pnpm build && node scripts/release.ts ${nextRelease.version}"
-      }
-    ],
-    [
       "@semantic-release/github",
       {
         "assets": [
           {
-            "path": "release/tdtu-auto-login-${nextRelease.version}.zip",
-            "label": "TDTU Auto Login"
+            "path": "release.zip",
+            "name": "TDTU Auto Login v${nextRelease.version}"
           }
         ]
       }
