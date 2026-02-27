@@ -3,27 +3,26 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import React from "react";
 import { renderToString } from "react-dom/server";
 
-import PopupPage from "./src/popup";
-
 const fullHtml = (
   <html>
     <head>
       <meta charSet="utf-8" />
     </head>
     <body>
-      <PopupPage />
+      <div id="root"></div>
+      <script src="index.js"></script>
     </body>
   </html>
 );
 
 buildSync({
-  entryPoints: ["src/**/*.ts"],
-  bundle: false,
+  entryPoints: ["src/**/*.ts*"],
+  bundle: true,
   outdir: "./dist",
   format: "cjs",
-  target: ["esnext"],
   minify: false,
   sourcemap: false,
+  platform: "browser",
 });
 
 if (!existsSync("./dist")) mkdirSync("./dist");
