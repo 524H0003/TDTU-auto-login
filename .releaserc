@@ -24,7 +24,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node scripts/release.ts ${nextRelease.version}"
+        "prepareCmd": "pnpm build && node scripts/release.ts ${nextRelease.version}"
       }
     ],
     [
@@ -32,7 +32,7 @@
       {
         "assets": [
           {
-            "path": "release.zip",
+            "path": "release/tdtu-auto-login-${nextRelease.version}.zip",
             "label": "TDTU Auto Login"
           }
         ]
