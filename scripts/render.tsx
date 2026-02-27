@@ -23,6 +23,7 @@ buildSync({
   minify: true,
   sourcemap: false,
   platform: "browser",
+  tsconfig: "tsconfig.json"
 });
 
 if (!existsSync("./dist")) mkdirSync("./dist");

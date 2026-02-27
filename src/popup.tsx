@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import { Button } from "./components/shadcn/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "./components/shadcn/ui/field";
+import { Input } from "./components/shadcn/ui/input";
 import { LocalStorage } from "./types";
 
 export default function PopupPage() {
@@ -35,40 +43,77 @@ export default function PopupPage() {
   };
 
   return (
-    <div style={{ padding: "15px", width: "200px" }}>
-      <h3>Cài đặt Đăng nhập</h3>
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-mssv">Mã số sinh viên</FieldLabel>
+        <Input
+          id="fieldgroup-mssv"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-password">Mật khẩu</FieldLabel>
+        <Input
+          id="fieldgroup-password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-password">Mật khẩu</FieldLabel>
+        <Input
+          id="fieldgroup-password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <FieldDescription>
+          We&apos;ll send updates to this address.
+        </FieldDescription>
+      </Field>
+      <Field orientation="horizontal">
+        <Button type="reset" variant="outline">
+          Reset
+        </Button>
+        <Button type="submit">Submit</Button>
+      </Field>
+    </FieldGroup>
+    // <div style={{ padding: "15px", width: "200px" }}>
+    //   <h3>Cài đặt Đăng nhập</h3>
 
-      <label>Mã số sinh viên:</label>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Nhập mã số sinh viên"
-      />
+    //   <label>Mã số sinh viên:</label>
+    //   <input
+    //     type="text"
+    //     value={username}
+    //     onChange={(e) => setUsername(e.target.value)}
+    //     placeholder="Nhập mã số sinh viên"
+    //   />
 
-      <label>Mật khẩu:</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Nhập mật khẩu"
-      />
+    //   <label>Mật khẩu:</label>
+    //   <input
+    //     type="password"
+    //     value={password}
+    //     onChange={(e) => setPassword(e.target.value)}
+    //     placeholder="Nhập mật khẩu"
+    //   />
 
-      <label>Thời gian (phút):</label>
-      <input
-        type="number"
-        value={interval}
-        onChange={(e) => setIntervalValue(Number(e.target.value))}
-        min="1"
-      />
+    //   <label>Thời gian (phút):</label>
+    //   <input
+    //     type="number"
+    //     value={interval}
+    //     onChange={(e) => setIntervalValue(Number(e.target.value))}
+    //     min="1"
+    //   />
 
-      <button onClick={handleSave} style={{ marginTop: "10px", width: "100%" }}>
-        Lưu & Bắt đầu
-      </button>
+    //   <button onClick={handleSave} style={{ marginTop: "10px", width: "100%" }}>
+    //     Lưu & Bắt đầu
+    //   </button>
 
-      <p style={{ color: "green", fontSize: "12px", minHeight: "15px" }}>
-        {status}
-      </p>
-    </div>
+    //   <p style={{ color: "green", fontSize: "12px", minHeight: "15px" }}>
+    //     {status}
+    //   </p>
+    // </div>
   );
 }
