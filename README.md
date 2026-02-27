@@ -11,7 +11,7 @@
 > - **Quyền sử dụng:** Bạn tự chịu trách nhiệm hoàn toàn về các hành vi đăng
 >   nhập của mình.
 
-# Hướng dẫn cài đặt
+# Hướng dẫn cài đặt (đang cập nhật)
 
 - Tải mã nguồn dưới dạng **.zip**
   [Chi tiết](https://docs.github.com/en/get-started/start-your-journey/downloading-files-from-github#downloading-a-repositorys-files)
