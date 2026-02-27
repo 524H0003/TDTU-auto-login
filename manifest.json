@@ -4,12 +4,13 @@
   "version": "0.0.1",
   "manifest_version": 3,
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_popup": "./dist/popup.html",
+    "default_icon": "public/icon.png"
   },
   "permissions": ["storage", "scripting", "alarms", "tabs"],
   "host_permissions": ["*://*.tdtu.edu.vn/*"],
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "./dist/service-worker.js",
+    "type": "module"
   }
 }

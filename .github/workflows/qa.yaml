@@ -1,0 +1,89 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches-ignore:
+      - main
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  CI: "true"
+
+jobs:
+  qa:
+    permissions:
+      contents: write
+      checks: write
+    if: "!contains(github.event.head_commit.message, 'chore(files): format')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install and Update Dependencies
+        run: |
+          pnpm update
+          # pnpm cypress:install
+
+      - name: Format project
+        if: always()
+        run: pnpm format
+
+      - name: Build Check
+        if: always()
+        run: pnpm build
+
+      - name: Lint Check
+        if: always()
+        run: pnpm lint
+
+      # - name: Cypress E2E Tests
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     runTests: true
+      #     command: pnpm e2e:headless
+
+      # - name: Cypress Component Tests
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     runTests: true
+      #     command: pnpm component:headless
+
+      - name: Commit & Push Changes
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore(files): format [ci skip]"
+            git push
+          fi
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@3.0.0
+        if: always()
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          report-json: 'reports/eslint.json'

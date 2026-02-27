@@ -1,0 +1,45 @@
+{
+  "name": "tdtu-auto-login",
+  "version": "0.0.1",
+  "private": "true",
+  "scripts": {
+    "commit": "cz",
+    "lint": "eslint --output-file reports/eslint.json --format json",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,md}\"",
+    "build": "tsx scripts/render.tsx",
+    "release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.4",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/chrome": "^0.1.37",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "commitizen": "^4.3.1",
+    "esbuild": "^0.27.3",
+    "eslint": "^10.0.2",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-embed": "^0.5.1",
+    "prettier-plugin-groovy": "^0.2.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "semantic-release": "^25.0.3",
+    "shadcn": "^3.8.5",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  }
+}

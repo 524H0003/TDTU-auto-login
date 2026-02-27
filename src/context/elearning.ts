@@ -1,6 +1,7 @@
-chrome.storage.local.get(["username", "password"], async (data) => {
+import { type IAccount } from "../types";
+
+chrome.storage.local.get<IAccount>(["username", "password"], async (data) => {
   if (data.username && data.password) {
-    // Elearning
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("password", data.password);
