@@ -1,10 +1,20 @@
+import { IAppSetting } from "./types";
+
+function createAlarm(minutes: number) {
+  chrome.alarms.create("autoLoginAlarm", {
+    periodInMinutes: minutes,
+  });
+  console.log(`Đã đặt báo thức chạy mỗi ${minutes} phút.`);
+}
+
+chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
+  createAlarm(data.interval);
+});
+
 chrome.runtime.onMessage.addListener((request) => {
   if (request.action === "start_alarm") {
     chrome.alarms.clear("autoLoginAlarm");
-    chrome.alarms.create("autoLoginAlarm", {
-      periodInMinutes: request.interval,
-    });
-    console.log(`Đã đặt báo thức chạy mỗi ${request.interval} phút.`);
+    createAlarm(request.interval);
   }
 });
 
