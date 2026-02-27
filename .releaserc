@@ -1,6 +1,6 @@
 {
   "branches": [
-    "main"
+    "*"
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -24,7 +24,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node scripts/zip-assets.js ${nextRelease.version}"
+        "prepareCmd": "node scripts/release.js ${nextRelease.version}"
       }
     ],
     [
