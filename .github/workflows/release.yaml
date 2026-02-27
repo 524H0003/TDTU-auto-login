@@ -1,7 +1,8 @@
 name: Release package
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
