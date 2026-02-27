@@ -7,15 +7,8 @@
     "default_popup": "./dist/popup.html",
     "default_icon": "public/icon.png"
   },
-  "permissions": [
-    "storage",
-    "scripting",
-    "alarms",
-    "tabs"
-  ],
-  "host_permissions": [
-    "*://*.tdtu.edu.vn/*"
-  ],
+  "permissions": ["storage", "scripting", "alarms", "tabs"],
+  "host_permissions": ["*://*.tdtu.edu.vn/*"],
   "background": {
     "service_worker": "./dist/service-worker.js",
     "type": "module"
