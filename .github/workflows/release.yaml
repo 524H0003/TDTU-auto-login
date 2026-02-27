@@ -1,14 +1,12 @@
 name: Release package
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
     permissions:
       contents: write
       issues: write
