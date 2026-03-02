@@ -9,7 +9,7 @@ if (!version) {
 
 const manifest = JSON.parse(readFileSync("./manifest.json", "utf-8"));
 
-manifest.version = version;
+manifest.version = version.split("-")[0];
 
 writeFileSync("./manifest.json", JSON.stringify(manifest, null, 2));
 
