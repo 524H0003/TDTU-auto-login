@@ -9,7 +9,6 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-  FieldTitle,
 } from "./components/shadcn/ui/field";
 import { Input } from "./components/shadcn/ui/input";
 import { LocalStorage } from "./types";
