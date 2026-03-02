@@ -1,11 +1,10 @@
 {
-    "compilerOptions": {
-        "baseUrl": "./src",
-        "paths": {
-            "@/*": [
-                "./*"
-            ]
-        },
-        "jsx": "react-jsx"
-    }
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "jsx": "react-jsx"
+  }
 }

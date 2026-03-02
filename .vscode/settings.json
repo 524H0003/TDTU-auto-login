@@ -11,7 +11,7 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/dist": false,
+    "**/dist": true,
     "**/node_modules": true,
     "**/pnpm-lock.yaml": true,
     ".pnpm-store": true,
@@ -20,7 +20,8 @@
     ".next": true,
     "reports": true,
     "next-env.d.ts": true,
-    "src/graphQL": true
+    "src/graphQL": true,
+    "**/release": true
   },
   "svg.preview.background": "transparent",
   "explorerExclude.backup": {},
