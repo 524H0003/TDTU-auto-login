@@ -16,6 +16,12 @@ const config: GlobalConfig = {
       },
     ],
     [
+      "@semantic-release-extras/verified-git-commit",
+      {
+        assets: ["package.json", "manifest.json"],
+      },
+    ],
+    [
       "@semantic-release/github",
       {
         assets: [
