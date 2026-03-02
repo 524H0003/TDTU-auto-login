@@ -6,10 +6,9 @@ import tseslint from "typescript-eslint";
 const eslintConfig = defineConfig([
   eslint.configs.recommended,
   tseslint.configs.recommended,
-  // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
     "dist/**",
+    "**/shadcn"
   ]),
   {
     plugins: {
