@@ -24,7 +24,7 @@ buildSync({
   sourcemap: false,
   platform: "browser",
   tsconfig: "tsconfig.json",
-  conditions: ['style']
+  conditions: ["style"],
 });
 
 if (!existsSync("./dist")) mkdirSync("./dist");
