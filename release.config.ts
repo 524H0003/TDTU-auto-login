@@ -16,12 +16,6 @@ const config: GlobalConfig = {
       },
     ],
     [
-      "@semantic-release-extras/verified-git-commit",
-      {
-        assets: ["package.json", "manifest.json"],
-      },
-    ],
-    [
       "@semantic-release/github",
       {
         assets: [
@@ -30,6 +24,14 @@ const config: GlobalConfig = {
             name: "TDTU Auto Login v${nextRelease.version}.zip",
           },
         ],
+      },
+    ],
+    [
+      "@semantic-release/git",
+      {
+        assets: ["package.json", "manifest.json"],
+        message:
+          "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
       },
     ],
   ],
