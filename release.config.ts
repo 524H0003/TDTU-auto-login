@@ -16,14 +16,6 @@ const config: GlobalConfig = {
       },
     ],
     [
-      "@semantic-release/git",
-      {
-        assets: ["manifest.json", "package.json"],
-        message:
-          "chore(release): ${nextRelease.version} [ci deploy]\n\n${nextRelease.notes}",
-      },
-    ],
-    [
       "@semantic-release/github",
       {
         assets: [
