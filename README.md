@@ -1,5 +1,4 @@
-> [!CAUTION]
-> **Lưu ý trước khi cài đặt**
+> [!CAUTION] **Lưu ý trước khi cài đặt**
 >
 > Đây là công cụ mã nguồn mở hỗ trợ tự động đăng nhập dành riêng cho sinh viên
 > Đại học Tôn Đức Thắng (TDTU).
