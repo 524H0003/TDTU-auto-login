@@ -11,16 +11,20 @@ execute<{ url: string }>({
     window.location.href = url;
   },
   conditionFunc: async () => {
-    const response = await fetch(
-      "https://old-stdportal.tdtu.edu.vn/Alert/ThongBaoNotification",
-      { method: "Post" },
-    );
+    try {
+      const response = await fetch(
+        "https://old-stdportal.tdtu.edu.vn/Alert/ThongBaoNotification",
+        { method: "Post" },
+      );
 
-    if (!response.ok) return false;
-    else {
-      const data = await response.text();
+      if (!response.ok) return false;
+      else {
+        const data = await response.text();
 
-      return data !== "[]";
+        return data !== "[]";
+      }
+    } catch {
+      return true;
     }
   },
 });
