@@ -1,5 +1,11 @@
 import { IAppSetting } from "./types";
 
+// Enable logging with timestamp
+const originalLog = console.log;
+console.log = function (...args) {
+  originalLog.apply(console, [`[${new Date().toISOString()}]`, ...args]);
+};
+
 function createAlarm(minutes: number) {
   chrome.alarms.create("autoLoginAlarm", {
     periodInMinutes: minutes,
