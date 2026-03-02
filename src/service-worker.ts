@@ -4,7 +4,23 @@ function createAlarm(minutes: number) {
   chrome.alarms.create("autoLoginAlarm", {
     periodInMinutes: minutes,
   });
-  console.log(`Đã đặt báo thức chạy mỗi ${minutes} phút.`);
+  console.log("Đã đặt báo thức chạy mỗi ${minutes} phút.");
+}
+
+async function executeScript(tab: chrome.tabs.Tab) {
+  const target = tab.url!.split(".")[0]!.split("/").at(-1);
+
+  await chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id! },
+      files: ["./dist/context/" + target + ".js"],
+    })
+    .then(() => {
+      console.log("Đã chèn thành công!");
+    })
+    .catch((err) => {
+      console.error("Lỗi khi chèn script\n", err);
+    });
 }
 
 chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
@@ -18,25 +34,23 @@ chrome.runtime.onMessage.addListener((request) => {
   }
 });
 
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  try {
+    const tab = await chrome.tabs.get(activeInfo.tabId);
+
+    if (tab.url && /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)) {
+      await executeScript(tab);
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy thông tin tab:", error);
+  }
+});
+
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "autoLoginAlarm") {
     chrome.tabs.query({ url: "*://*.tdtu.edu.vn/*" }, (tabs) => {
       if (tabs.length > 0) {
-        tabs.forEach((element) => {
-          const target = element.url!.split(".")[0]!.split("/").at(-1);
-
-          chrome.scripting
-            .executeScript({
-              target: { tabId: element.id! },
-              files: ["./dist/context/" + target + ".js"],
-            })
-            .then(() => {
-              console.log("Đã chèn thành công!");
-            })
-            .catch((err) => {
-              console.error("Lỗi khi chèn script:", err);
-            });
-        });
+        tabs.forEach((e) => executeScript(e));
       } else {
         console.log("Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.");
       }

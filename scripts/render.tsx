@@ -7,9 +7,9 @@ const fullHtml = (
   <html>
     <head>
       <meta charSet="utf-8" />
+      <link rel="stylesheet" href="index.css"></link>
     </head>
-    <body>
-      <div id="root"></div>
+    <body id="root">
       <script src="index.js"></script>
     </body>
   </html>
@@ -23,7 +23,8 @@ buildSync({
   minify: true,
   sourcemap: false,
   platform: "browser",
-  tsconfig: "tsconfig.json"
+  tsconfig: "tsconfig.json",
+  conditions: ['style']
 });
 
 if (!existsSync("./dist")) mkdirSync("./dist");

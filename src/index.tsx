@@ -2,6 +2,8 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import PopupPage from "./popup";
+import '@/styles/globals.css';
+import '@/styles/tailwind.css';
 
 const container = document.getElementById("root");
 if (container) {

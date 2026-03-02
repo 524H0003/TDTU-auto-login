@@ -4,8 +4,12 @@ import { Button } from "./components/shadcn/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
+  FieldTitle,
 } from "./components/shadcn/ui/field";
 import { Input } from "./components/shadcn/ui/input";
 import { LocalStorage } from "./types";
@@ -43,7 +47,13 @@ export default function PopupPage() {
   };
 
   return (
-    <FieldGroup>
+    <FieldGroup className="p-4">
+      <FieldSet>
+        <FieldLegend>TDTU Auto Login</FieldLegend>
+        <FieldDescription>
+          Tự động đăng nhập tài khoản sinh viên
+        </FieldDescription>
+      </FieldSet>
       <Field>
         <FieldLabel htmlFor="fieldgroup-mssv">Mã số sinh viên</FieldLabel>
         <Input
@@ -62,58 +72,32 @@ export default function PopupPage() {
         />
       </Field>
       <Field>
-        <FieldLabel htmlFor="fieldgroup-password">Mật khẩu</FieldLabel>
+        <FieldLabel htmlFor="fieldgroup-interval">
+          Thời gian tuần hoàn (phút)
+        </FieldLabel>
         <Input
-          id="fieldgroup-password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          id="fieldgroup-interval"
+          type="number"
+          value={interval}
+          onChange={(e) => setIntervalValue(Number(e.target.value))}
+          min="1"
         />
         <FieldDescription>
-          We&apos;ll send updates to this address.
+          Thời gian cập nhật thông tin đăng nhập
         </FieldDescription>
       </Field>
       <Field orientation="horizontal">
         <Button type="reset" variant="outline">
           Reset
         </Button>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" onClick={handleSave}>
+          Submit
+        </Button>
+        <FieldError
+          className="text-green-400"
+          errors={[{ message: status || " " }]}
+        />
       </Field>
     </FieldGroup>
-    // <div style={{ padding: "15px", width: "200px" }}>
-    //   <h3>Cài đặt Đăng nhập</h3>
-
-    //   <label>Mã số sinh viên:</label>
-    //   <input
-    //     type="text"
-    //     value={username}
-    //     onChange={(e) => setUsername(e.target.value)}
-    //     placeholder="Nhập mã số sinh viên"
-    //   />
-
-    //   <label>Mật khẩu:</label>
-    //   <input
-    //     type="password"
-    //     value={password}
-    //     onChange={(e) => setPassword(e.target.value)}
-    //     placeholder="Nhập mật khẩu"
-    //   />
-
-    //   <label>Thời gian (phút):</label>
-    //   <input
-    //     type="number"
-    //     value={interval}
-    //     onChange={(e) => setIntervalValue(Number(e.target.value))}
-    //     min="1"
-    //   />
-
-    //   <button onClick={handleSave} style={{ marginTop: "10px", width: "100%" }}>
-    //     Lưu & Bắt đầu
-    //   </button>
-
-    //   <p style={{ color: "green", fontSize: "12px", minHeight: "15px" }}>
-    //     {status}
-    //   </p>
-    // </div>
   );
 }
