@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source('../../src');
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -118,6 +118,6 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground w-2xs;
     }
 }

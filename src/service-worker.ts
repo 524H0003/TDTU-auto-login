@@ -8,7 +8,7 @@ function createAlarm(minutes: number) {
 }
 
 chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
-  createAlarm(data.interval);
+  if (data.interval) createAlarm(data.interval);
 });
 
 chrome.runtime.onMessage.addListener((request) => {
