@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import { buildSync } from "esbuild";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import React from "react";
@@ -15,12 +16,14 @@ const fullHtml = (
   </html>
 );
 
+config({ quiet: true });
+
 buildSync({
   entryPoints: ["src/**/*.ts", "src/index.tsx"],
   bundle: true,
   outdir: "./dist",
   format: "cjs",
-  minify: true,
+  minify: process.env.NODE_ENV !== "development",
   sourcemap: false,
   platform: "browser",
   tsconfig: "tsconfig.json",

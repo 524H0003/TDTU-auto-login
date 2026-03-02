@@ -3,3 +3,4 @@ node_modules/
 dist/
 reports/
 src/styles/tailwind.css
+.env

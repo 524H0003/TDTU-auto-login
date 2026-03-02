@@ -1,12 +1,22 @@
 import { type IAccount } from "../types";
 
-export interface IExecute {
+export interface IExecute<Response extends object = null> {
   usernameField: string;
   passwordField: string;
-  url: string;
+  url: string | (() => string);
+  postFunc?: (input: Response) => void | Promise<void>;
+  conditionFunc?: () => Promise<boolean> | boolean;
 }
 
-export function execute({ usernameField, passwordField, url }: IExecute) {
+export async function execute<T extends object = null>({
+  usernameField,
+  passwordField,
+  url,
+  postFunc = () => {},
+  conditionFunc = () => true,
+}: IExecute<T>) {
+  if (!(await conditionFunc())) return;
+
   chrome.storage.local.get<IAccount>(["username", "password"], async (data) => {
     if (data.username && data.password) {
       const formData = new FormData();
@@ -14,16 +24,19 @@ export function execute({ usernameField, passwordField, url }: IExecute) {
       formData.append(passwordField, data.password);
 
       try {
-        const response = await fetch(url, {
-          method: "POST",
-          body: formData,
-        });
+        const targetUrl = typeof url === "function" ? url() : url,
+          response = await fetch(targetUrl, {
+            method: "POST",
+            body: formData,
+          });
 
         if (!response.ok) {
           console.error("Gửi POST thất bại, mã lỗi:", response.status);
+        } else {
+          await postFunc(await response.json());
         }
       } catch (error) {
-        console.error("Lỗi kết nối khi gửi POST:", error);
+        console.error("Lỗi kết nối khi gửi POST\n", error);
       }
     }
   });

@@ -1,6 +1,6 @@
 {
   "name": "tdtu-auto-login",
-  "version": "1.0.3",
+  "version": "1.1.0-dev.1",
   "private": "true",
   "scripts": {
     "commit": "cz",
@@ -18,9 +18,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
-    "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^12.0.6",
     "@semantic-release/npm": "^13.1.5",
     "@tailwindcss/cli": "^4.2.1",
@@ -29,10 +27,12 @@
     "@types/node": "^25.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/semantic-release": "^21.1.0",
     "autoprefixer": "^10.4.27",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "commitizen": "^4.3.1",
+    "dotenv": "^17.3.1",
     "esbuild": "^0.27.3",
     "eslint": "^10.0.2",
     "eslint-plugin-unused-imports": "^4.4.1",
