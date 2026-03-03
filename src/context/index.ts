@@ -1,6 +1,6 @@
 import { type IAccount } from "../types";
 
-export interface IExecute<Response extends object = null> {
+export interface IExecute<Response extends object | null = null> {
   usernameField: string;
   passwordField: string;
   url: string | (() => string);
