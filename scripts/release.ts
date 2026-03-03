@@ -20,3 +20,5 @@ console.log(`📦 Đang nén file cho version: ${version}...`);
 execSync(`zip -r ${zipPath} dist public manifest.json`, { stdio: "inherit" });
 
 console.log(`✅ Đã tạo file zip: ${zipPath}`);
+
+execSync("pnpm format");
