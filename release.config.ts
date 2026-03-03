@@ -29,7 +29,7 @@ const config: GlobalConfig = {
     [
       "@semantic-release/git",
       {
-        assets: ["package.json", "manifest.json"],
+        assets: ["*"],
         message:
           "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
       },
