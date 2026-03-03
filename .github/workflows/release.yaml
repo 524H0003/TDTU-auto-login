@@ -61,7 +61,7 @@ jobs:
 
 
       - name: Format code and push
-        run:
+        run: |
           pnpm format
           git add .
 
