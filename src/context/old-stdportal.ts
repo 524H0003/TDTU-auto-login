@@ -1,14 +1,14 @@
 import { execute } from ".";
 
-execute<{ url: string }>({
+execute({
   usernameField: "user",
   passwordField: "pass",
   url: () =>
     "https://old-stdportal.tdtu.edu.vn/Login/SignIn?ReturnURL=" +
     window.location.origin +
     window.location.pathname,
-  postFunc: async ({ url }) => {
-    window.location.href = url;
+  postFunc: async (res) => {
+    window.location.href = (await res.json()).url;
   },
   conditionFunc: async () => {
     try {
@@ -28,3 +28,5 @@ execute<{ url: string }>({
     }
   },
 });
+
+export const runOnUpdate = true;

@@ -44,6 +44,20 @@ chrome.runtime.onMessage.addListener((request) => {
   }
 });
 
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  if (
+    changeInfo.status === "complete" &&
+    tab.url &&
+    /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)
+  ) {
+    const target = tab.url!.split(".")[0]!.split("/").at(-1),
+      module = await import(`./context/${target}.ts`),
+      runOnUpdate = module.runOnUpdate || false;
+
+    if (runOnUpdate) executeScript(tab);
+  }
+});
+
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   try {
     const tab = await chrome.tabs.get(activeInfo.tabId);

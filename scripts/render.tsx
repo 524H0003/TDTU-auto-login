@@ -22,7 +22,7 @@ buildSync({
   entryPoints: ["src/**/*.ts", "src/index.tsx"],
   bundle: true,
   outdir: "./dist",
-  format: "cjs",
+  format: "iife",
   minify: process.env.NODE_ENV !== "development",
   sourcemap: false,
   platform: "browser",
