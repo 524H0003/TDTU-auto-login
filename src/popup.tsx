@@ -25,10 +25,10 @@ export default function PopupPage() {
     chrome.storage.local.get<LocalStorage>(
       ["username", "password", "interval", "active"],
       (data) => {
-        setUsername(data.username);
-        setPassword(data.password);
-        setIntervalValue(data.interval);
-        setActive(data.active);
+        setUsername(data.username || "");
+        setPassword(data.password || "");
+        setIntervalValue(data.interval || 3);
+        setActive(data.active || false);
       },
     );
   }, []);
