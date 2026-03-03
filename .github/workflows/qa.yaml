@@ -17,7 +17,6 @@ jobs:
     permissions:
       contents: write
       checks: write
-    if: "!contains(github.event.head_commit.message, 'chore(files): format')"
     runs-on: ubuntu-latest
 
     steps:
@@ -41,14 +40,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install and Update Dependencies
+      - name: Install Dependencies
         run: |
-          pnpm update
+          pnpm install 
           # pnpm cypress:install
-
-      - name: Format project
-        if: always()
-        run: pnpm format
 
       - name: Build Check
         if: always()
@@ -69,18 +64,6 @@ jobs:
       #   with:
       #     runTests: true
       #     command: pnpm component:headless
-
-      - name: Commit & Push Changes
-        if: always()
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git pull
-            git commit -m "chore(files): format"
-            git push
-          fi
 
       - name: Annotate Code Linting Results
         uses: ataylorme/eslint-annotate-action@3.0.0
