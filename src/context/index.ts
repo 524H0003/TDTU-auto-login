@@ -37,7 +37,10 @@ export async function execute<T extends object = null>({
             const data = await response.json();
             await postFunc(data);
           } catch (parseError) {
-            console.error("Lỗi khi phân tích JSON từ phản hồi POST\n", parseError);
+            console.error(
+              "Lỗi khi phân tích JSON từ phản hồi POST\n",
+              parseError,
+            );
           }
         }
       } catch (error) {
