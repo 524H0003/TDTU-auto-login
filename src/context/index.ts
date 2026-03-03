@@ -15,9 +15,9 @@ export async function execute({
   postFunc = () => {},
   conditionFunc = () => true,
 }: IExecute) {
-  if (!(await conditionFunc())) return;
+  window.initAutoLogin = async (data: IAccount) => {
+    if (!(await conditionFunc())) return;
 
-  chrome.storage.local.get<IAccount>(["username", "password"], async (data) => {
     if (data.username && data.password) {
       const formData = new FormData();
       formData.append(usernameField, data.username);
@@ -39,5 +39,5 @@ export async function execute({
         console.error("Lỗi kết nối khi gửi POST\n", error);
       }
     }
-  });
+  };
 }

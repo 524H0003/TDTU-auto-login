@@ -39,7 +39,7 @@ execute({
       );
 
       if (xhr.status === 200) {
-        return xhr.responseText.includes("[]");
+        return JSON.parse(xhr.responseText)[0].error;
       }
 
       return true;

@@ -1,4 +1,4 @@
-import { IAppSetting } from "./types";
+import { IAppSetting, LocalStorage } from "./types";
 
 // Enable logging with timestamp
 const originalLog = console.log;
@@ -16,21 +16,36 @@ function createAlarm(minutes: number) {
 function executeScript(tab: chrome.tabs.Tab) {
   const target = tab.url!.split(".")[0]!.split("/").at(-1);
 
-  chrome.storage.local.get<IAppSetting>(["active"], async ({ active }) => {
-    if (!active) return;
+  chrome.storage.local.get<LocalStorage>(
+    ["active", "username", "password"],
+    async ({ active, username, password }) => {
+      if (!active) return;
 
-    await chrome.scripting
-      .executeScript({
+      await chrome.scripting
+        .executeScript({
+          world: "MAIN",
+          target: { tabId: tab.id! },
+          files: ["./dist/context/" + target + ".js"],
+        })
+        .then(() => {
+          console.log("Đã chèn thành công!");
+        })
+        .catch((err) => {
+          console.error("Lỗi khi chèn script\n", err);
+        });
+
+      await chrome.scripting.executeScript({
         target: { tabId: tab.id! },
-        files: ["./dist/context/" + target + ".js"],
-      })
-      .then(() => {
-        console.log("Đã chèn thành công!");
-      })
-      .catch((err) => {
-        console.error("Lỗi khi chèn script\n", err);
+        world: "MAIN",
+        args: [{ username, password }],
+        func: (creds) => {
+          if (typeof window.initAutoLogin === "function") {
+            window.initAutoLogin(creds);
+          }
+        },
       });
-  });
+    },
+  );
 }
 
 chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
