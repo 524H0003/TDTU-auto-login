@@ -17,15 +17,16 @@ execute({
         { method: "Post" },
       );
 
-      if (!response.ok) return false;
-      else {
+      if (response.ok) {
         const data = await response.text();
 
         return data !== "[]";
       }
-    } catch {
-      return true;
+    } catch (e) {
+      console.log(e);
     }
+
+    return true;
   },
 });
 
