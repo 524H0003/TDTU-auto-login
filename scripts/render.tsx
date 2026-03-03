@@ -8,7 +8,7 @@ const fullHtml = (
   <html>
     <head>
       <meta charSet="utf-8" />
-      <link rel="stylesheet" href="index.css"></link>
+      <link rel="stylesheet" href="index.css" />
     </head>
     <body id="root">
       <script src="index.js"></script>
