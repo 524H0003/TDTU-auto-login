@@ -60,10 +60,8 @@ jobs:
         run: pnpm update
 
 
-      - name: Format code and push
-        run: |
-          pnpm format
-          git add .
+      - name: Format code
+        run: pnpm format
 
       - name: Release
         env:
