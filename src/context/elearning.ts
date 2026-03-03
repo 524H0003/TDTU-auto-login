@@ -5,7 +5,7 @@ execute({
   passwordField: "password",
   url: "https://elearning.tdtu.edu.vn/login/index.php",
   postFunc: async () => {
-    window.location.href = window.location.origin + '/my'
+    window.location.href = window.location.origin + "/my";
   },
   conditionFunc: async () => {
     // @ts-expect-error M is global on TDTU elearning
