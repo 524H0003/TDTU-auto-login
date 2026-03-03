@@ -12,11 +12,10 @@
 > - **Quyền sử dụng:** Bạn tự chịu trách nhiệm hoàn toàn về các hành vi đăng
 >   nhập của mình.
 
-# Hướng dẫn cài đặt (đang cập nhật)
+# Hướng dẫn cài đặt 
 
-- Tải mã nguồn dưới dạng **.zip**
-  [Chi tiết](https://docs.github.com/en/get-started/start-your-journey/downloading-files-from-github#downloading-a-repositorys-files)
-- Giải nén tập tin ở vị trí sử dụng lâu dài
+- Tải tiện ích mới nhất [tại đây](https://github.com/524H0003/TDTU-auto-login/releases/latest) dưới dạng **.zip**
+- Giải nén tập tin ở vị trí có thể sử dụng lâu dài
 - Thêm tiện ích theo hướng dẫn
   [Chi tiết](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
-- Mở tiện ích và điền thông tin sinh viên
+- Mở tiện ích, điền thông tin sinh viên và sử dụng
