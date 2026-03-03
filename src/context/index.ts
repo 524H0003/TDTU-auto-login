@@ -1,6 +1,6 @@
 import { type IAccount } from "../types";
 
-export interface IExecute<Response extends object = null> {
+export interface IExecute<Response extends object | null = null> {
   usernameField: string;
   passwordField: string;
   url: string | (() => string);
@@ -33,7 +33,15 @@ export async function execute<T extends object = null>({
         if (!response.ok) {
           console.error("Gửi POST thất bại, mã lỗi:", response.status);
         } else {
-          await postFunc(await response.json());
+          try {
+            const data = await response.json();
+            await postFunc(data);
+          } catch (parseError) {
+            console.error(
+              "Lỗi khi phân tích JSON từ phản hồi POST\n",
+              parseError,
+            );
+          }
         }
       } catch (error) {
         console.error("Lỗi kết nối khi gửi POST\n", error);
