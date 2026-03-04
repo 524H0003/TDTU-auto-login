@@ -3,6 +3,16 @@ import React, { useEffect, useState } from "react";
 import packageJson from "../package.json";
 import { Button } from "./components/shadcn/ui/button";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/shadcn/ui/dialog";
+import {
   Field,
   FieldDescription,
   FieldError,
@@ -100,16 +110,35 @@ export default function PopupPage() {
         </FieldDescription>
       </Field>
       <Field orientation="horizontal">
-        <Button type="reset" variant="outline">
-          Reset
-        </Button>
         <Button type="submit" onClick={handleSave}>
-          Submit
+          Lưu thông tin
         </Button>
         <FieldError
           className="text-green-400"
           errors={[{ message: status || " " }]}
         />
+      </Field>
+      <Field>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Kích hoạt bảo mật nâng cao</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Đặt mật khẩu tối thượng</DialogTitle>
+              <DialogDescription>
+                Hiện tại, thông tin đăng nhập sinh viên chưa được mã hóa bảo vệ.
+                Để bảo mật thông tin cá nhân, vui lòng nhập mật khẩu tối thượng.
+              </DialogDescription>
+            </DialogHeader>
+            <Input id="link" />
+            <DialogFooter className="sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button">Lưu mật khẩu tối thượng</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </Field>
     </FieldGroup>
   );

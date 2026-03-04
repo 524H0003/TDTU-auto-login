@@ -1,11 +1,19 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
     "jsx": "react-jsx",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "moduleResolution": "bundler"
   }
 }
