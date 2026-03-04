@@ -1,5 +1,7 @@
 import { IAppSetting, LocalStorage } from "./types";
 
+const TDTURegex = /^https?:\/\/.*\.tdtu\.edu\.vn(:\d+)?\/.*$/;
+
 // Enable logging with timestamp
 const originalLog = console.log;
 console.log = function (...args) {
@@ -60,11 +62,7 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (
-    changeInfo.status === "complete" &&
-    tab.url &&
-    /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)
-  ) {
+  if (changeInfo.status === "complete" && tab.url && TDTURegex.test(tab.url)) {
     const target = tab.url!.split(".")[0]!.split("/").at(-1),
       module = await import(`./context/${target}.ts`),
       runOnUpdate = module.runOnUpdate || false;
@@ -77,7 +75,7 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
   try {
     const tab = await chrome.tabs.get(activeInfo.tabId);
 
-    if (tab.url && /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)) {
+    if (tab.url && TDTURegex.test(tab.url)) {
       executeScript(tab);
     }
   } catch (error) {
@@ -87,12 +85,17 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "autoLoginAlarm") {
-    chrome.tabs.query({ url: "*://*.tdtu.edu.vn/*" }, (tabs) => {
-      if (tabs.length > 0) {
-        tabs.forEach((e) => executeScript(e));
-      } else {
-        console.log("Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.");
-      }
-    });
+    chrome.tabs.query(
+      { url: ["*://*.tdtu.edu.vn/*", "*://*.tdtu.edu.vn:*/*"] },
+      (tabs) => {
+        if (tabs.length > 0) {
+          tabs.forEach((e) => executeScript(e));
+        } else {
+          console.log(
+            "Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.",
+          );
+        }
+      },
+    );
   }
 });

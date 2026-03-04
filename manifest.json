@@ -8,7 +8,7 @@
     "default_icon": "public/icon.png"
   },
   "permissions": ["storage", "scripting", "alarms", "tabs"],
-  "host_permissions": ["*://*.tdtu.edu.vn/*"],
+  "host_permissions": ["*://*.tdtu.edu.vn/*", "*://*.tdtu.edu.vn:*/*"],
   "background": {
     "service_worker": "./dist/service-worker.js",
     "type": "module"
