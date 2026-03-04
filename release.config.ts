@@ -25,15 +25,7 @@ const config: GlobalConfig = {
           },
         ],
       },
-    ],
-    [
-      "@semantic-release/git",
-      {
-        assets: ["*"],
-        message:
-          "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
-      },
-    ],
+    ]
   ],
 };
 
