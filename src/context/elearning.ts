@@ -13,6 +13,10 @@ execute({
     if (!sesskey)
       return !window.location.pathname.split("/")[1].includes(".php");
 
+    const userDiv = document.querySelector<HTMLDivElement>("div[data-user-id]");
+
+    if (!userDiv) return true;
+
     try {
       const xhr = new XMLHttpRequest();
 
@@ -20,7 +24,7 @@ execute({
         "POST",
         `https://elearning.tdtu.edu.vn/lib/ajax/service.php?sesskey=${
           sesskey
-        }&info=core_course_get_enrolled_courses_by_timeline_classification`,
+        }&info=core_course_get_recent_courses`,
         false,
       );
 
@@ -28,22 +32,14 @@ execute({
         JSON.stringify([
           {
             index: 0,
-            methodname:
-              "core_course_get_enrolled_courses_by_timeline_classification",
-            args: {
-              offset: 0,
-              limit: 0,
-              classification: "all",
-              sort: "fullname",
-              customfieldname: "",
-              customfieldvalue: "",
-            },
+            methodname: "core_course_get_recent_courses",
+            args: { userid: userDiv.dataset.userId, limit: 10 },
           },
         ]),
       );
 
       if (xhr.status === 200) {
-        return JSON.parse(xhr.responseText)[0].error;
+        return JSON.parse(xhr.responseText)[0].data === undefined;
       }
     } catch (e) {
       console.log(e);
