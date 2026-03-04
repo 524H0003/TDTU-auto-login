@@ -24,11 +24,16 @@ jobs:
       - name: Get GitHub App User ID
         id: get-user-id
         run:
-          echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+          echo "user-id=$(gh api
+          "/users/${{steps.app-token.outputs.app-slug}}[bot]" --jq .id)" >>
+          "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:

@@ -7,7 +7,8 @@ export interface IExecute {
   postFunc?: (input: Response) => void | Promise<void>;
   conditionFunc?: () => Promise<boolean> | boolean;
   handleError?: () => void;
-  extendFields?: (formData: FormData | URLSearchParams) => void | Promise<void>;
+  extendFields?: 
+  (formData: FormData | URLSearchParams) => void | Promise<void>;
   isFormData?: boolean;
 }
 
