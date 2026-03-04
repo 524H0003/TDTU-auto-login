@@ -44,11 +44,10 @@ execute({
       if (xhr.status === 200) {
         return JSON.parse(xhr.responseText)[0].error;
       }
-
-      return true;
     } catch {
-      return true;
+      /* empty */
     }
+    return true;
   },
 });
 

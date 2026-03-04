@@ -12,9 +12,11 @@
 > - **Quyền sử dụng:** Bạn tự chịu trách nhiệm hoàn toàn về các hành vi đăng
 >   nhập của mình.
 
-# Hướng dẫn cài đặt 
+# Hướng dẫn cài đặt
 
-- Tải tiện ích mới nhất [tại đây](https://github.com/524H0003/TDTU-auto-login/releases/latest) dưới dạng **.zip**
+- Tải tiện ích mới nhất
+  [tại đây](https://github.com/524H0003/TDTU-auto-login/releases/latest) dưới
+  dạng **.zip**
 - Giải nén tập tin ở vị trí có thể sử dụng lâu dài
 - Thêm tiện ích theo hướng dẫn
   [Chi tiết](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)

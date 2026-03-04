@@ -6,6 +6,9 @@ export interface IExecute {
   url: string | (() => string);
   postFunc?: (input: Response) => void | Promise<void>;
   conditionFunc?: () => Promise<boolean> | boolean;
+  handleError?: () => void;
+  extendFields?: (formData: FormData | URLSearchParams) => void | Promise<void>;
+  isFormData?: boolean;
 }
 
 export async function execute({
@@ -14,14 +17,21 @@ export async function execute({
   url,
   postFunc = () => {},
   conditionFunc = () => true,
+  extendFields = () => {},
+  handleError = () => {},
+  isFormData = true,
 }: IExecute) {
+  if (typeof window === "undefined") return;
+
   window.initAutoLogin = async (data: IAccount) => {
     if (!(await conditionFunc())) return;
 
     if (data.username && data.password) {
-      const formData = new FormData();
+      const formData = isFormData ? new FormData() : new URLSearchParams();
       formData.append(usernameField, data.username);
       formData.append(passwordField, data.password);
+
+      extendFields(formData);
 
       try {
         const targetUrl = typeof url === "function" ? url() : url,
@@ -36,7 +46,8 @@ export async function execute({
           await postFunc(response);
         }
       } catch (error) {
-        console.error("Lỗi kết nối khi gửi POST\n", error);
+        console.log("Lỗi kết nối khi gửi POST\n", error);
+        handleError();
       }
     }
   };

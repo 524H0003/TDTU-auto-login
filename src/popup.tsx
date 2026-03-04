@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import packageJson from "../package.json";
 import { Button } from "./components/shadcn/ui/button";
 import {
   Field,
@@ -53,7 +54,7 @@ export default function PopupPage() {
       <FieldSet>
         <FieldLegend>TDTU Auto Login</FieldLegend>
         <FieldDescription>
-          Tự động đăng nhập tài khoản sinh viên
+          Tự động đăng nhập tài khoản sinh viên. Phiên bản {packageJson.version}
         </FieldDescription>
       </FieldSet>
       <Field orientation="horizontal" className="w-fit">

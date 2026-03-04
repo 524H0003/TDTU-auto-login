@@ -1,5 +1,7 @@
 import { IAppSetting, LocalStorage } from "./types";
 
+const TDTURegex = /^https?:\/\/.*\.tdtu\.edu\.vn(:\d+)?\/.*$/;
+
 // Enable logging with timestamp
 const originalLog = console.log;
 console.log = function (...args) {
@@ -50,6 +52,10 @@ function executeScript(tab: chrome.tabs.Tab) {
 
 chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
   if (data.interval) createAlarm(data.interval);
+  else {
+    chrome.storage.local.set({ interval: 3 });
+    createAlarm(3);
+  }
 });
 
 chrome.runtime.onMessage.addListener((request) => {
@@ -60,11 +66,7 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (
-    changeInfo.status === "complete" &&
-    tab.url &&
-    /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)
-  ) {
+  if (changeInfo.status === "complete" && tab.url && TDTURegex.test(tab.url)) {
     const target = tab.url!.split(".")[0]!.split("/").at(-1),
       module = await import(`./context/${target}.ts`),
       runOnUpdate = module.runOnUpdate || false;
@@ -77,7 +79,7 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
   try {
     const tab = await chrome.tabs.get(activeInfo.tabId);
 
-    if (tab.url && /^https?:\/\/.*\.tdtu\.edu\.vn\/.*$/.test(tab.url)) {
+    if (tab.url && TDTURegex.test(tab.url)) {
       executeScript(tab);
     }
   } catch (error) {
@@ -87,12 +89,42 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "autoLoginAlarm") {
-    chrome.tabs.query({ url: "*://*.tdtu.edu.vn/*" }, (tabs) => {
-      if (tabs.length > 0) {
-        tabs.forEach((e) => executeScript(e));
-      } else {
-        console.log("Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.");
-      }
+    chrome.tabs.query(
+      { url: ["*://*.tdtu.edu.vn/*", "*://*.tdtu.edu.vn:*/*"] },
+      (tabs) => {
+        if (tabs.length > 0) {
+          tabs.forEach(executeScript);
+        } else {
+          console.log(
+            "Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.",
+          );
+        }
+      },
+    );
+
+    chrome.storage.local.get<IAppSetting>(["active"], async ({ active }) => {
+      if (!active) return;
+
+      const hostUrl = "https://sso.tdt.edu.vn/Authenticate.aspx",
+        url = new URL(hostUrl);
+
+      url.searchParams.append(
+        "ReturnUrl",
+        "https://dkmh.tdtu.edu.vn/default.aspx",
+      );
+
+      chrome.tabs.create({ url: url.toString(), active: false }, (tab) => {
+        chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
+          if (tabId === tab.id && info.status === "complete") {
+            chrome.tabs.onUpdated.removeListener(listener);
+
+            setTimeout(() => {
+              chrome.tabs.remove(tabId);
+              console.log("Đã làm mới cookie và đóng tab " + tab.url);
+            }, 500);
+          }
+        });
+      });
     });
   }
 });
