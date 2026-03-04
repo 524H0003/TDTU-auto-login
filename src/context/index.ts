@@ -21,6 +21,8 @@ export async function execute({
   handleError = () => {},
   isFormData = true,
 }: IExecute) {
+  if (typeof window === "undefined") return;
+
   window.initAutoLogin = async (data: IAccount) => {
     if (!(await conditionFunc())) return;
 

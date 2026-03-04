@@ -52,6 +52,10 @@ function executeScript(tab: chrome.tabs.Tab) {
 
 chrome.storage.local.get<IAppSetting>(["interval"], (data) => {
   if (data.interval) createAlarm(data.interval);
+  else {
+    chrome.storage.local.set({ interval: 3 });
+    createAlarm(3);
+  }
 });
 
 chrome.runtime.onMessage.addListener((request) => {
@@ -89,7 +93,47 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       { url: ["*://*.tdtu.edu.vn/*", "*://*.tdtu.edu.vn:*/*"] },
       (tabs) => {
         if (tabs.length > 0) {
-          tabs.forEach((e) => executeScript(e));
+          tabs.forEach(async (e) => {
+            executeScript(e);
+
+            const target = e.url!.split(".")[0]!.split("/").at(-1),
+              module = await import(`./context/${target}.ts`),
+              updateCookie = module.updateCookie || false;
+
+            if (updateCookie) {
+              chrome.storage.local.get<IAppSetting>(
+                ["active"],
+                async ({ active }) => {
+                  if (!active) return;
+
+                  const hostUrl = "https://sso.tdt.edu.vn/Authenticate.aspx",
+                    url = new URL(hostUrl);
+
+                  url.searchParams.append("ReturnUrl", e.url);
+
+                  chrome.tabs.create(
+                    { url: url.toString(), active: false },
+                    (tab) => {
+                      chrome.tabs.onUpdated.addListener(
+                        function listener(tabId, info) {
+                          if (tabId === tab.id && info.status === "complete") {
+                            chrome.tabs.onUpdated.removeListener(listener);
+
+                            setTimeout(() => {
+                              chrome.tabs.remove(tabId);
+                              console.log(
+                                "Đã làm mới cookie và đóng tab " + tab.url,
+                              );
+                            }, 500);
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            }
+          });
         } else {
           console.log(
             "Báo thức reo nhưng không tìm thấy tab TDTU nào đang mở.",

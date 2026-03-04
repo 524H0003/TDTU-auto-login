@@ -30,4 +30,5 @@ execute({
   },
 });
 
-export const runOnUpdate = true;
+export const runOnUpdate = true,
+  updateCookie = true;
