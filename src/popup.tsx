@@ -100,11 +100,8 @@ export default function PopupPage() {
         </FieldDescription>
       </Field>
       <Field orientation="horizontal">
-        <Button type="reset" variant="outline">
-          Reset
-        </Button>
         <Button type="submit" onClick={handleSave}>
-          Submit
+          Lưu thông tin
         </Button>
         <FieldError
           className="text-green-400"

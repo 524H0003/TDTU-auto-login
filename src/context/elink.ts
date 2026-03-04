@@ -37,4 +37,4 @@ execute({
   handleError: redirectTo,
 });
 
-export const runOnUpdate = false;
+export const runOnUpdate = true;
