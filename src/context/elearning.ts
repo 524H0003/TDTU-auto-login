@@ -10,7 +10,8 @@ execute({
   conditionFunc: async () => {
     // @ts-expect-error M is global on TDTU elearning
     const sesskey = typeof M !== "undefined" ? M.cfg.sesskey : null;
-    if (!sesskey) return true;
+    if (!sesskey)
+      return !window.location.pathname.split("/")[1].includes(".php");
 
     try {
       const xhr = new XMLHttpRequest();
@@ -44,8 +45,8 @@ execute({
       if (xhr.status === 200) {
         return JSON.parse(xhr.responseText)[0].error;
       }
-    } catch {
-      /* empty */
+    } catch (e) {
+      console.log(e);
     }
     return true;
   },
