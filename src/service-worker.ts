@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (!(changeInfo.status === "complete" && tab.url && TDTURegex.test(tab.url)))
+  if (changeInfo.status !== "complete" || !tab.url || !TDTURegex.test(tab.url))
     return;
 
   const target = tab.url!.split(".")[0]!.split("/").at(-1),
@@ -123,11 +123,9 @@ chrome.alarms.onAlarm.addListener((alarm) => {
             updatedTab: chrome.tabs.Tab,
           ) {
             if (
-              !(
-                updatedTab.url &&
-                tabId === tab.id &&
-                info.status === "complete"
-              )
+              !updatedTab.url ||
+              tabId !== tab.id ||
+              info.status !== "complete"
             )
               return;
 
@@ -135,10 +133,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
               allowedHosts = ["dkmh.tdtu.edu.vn", "old-stdportal.tdtu.edu.vn"];
 
             if (
-              !(
-                parsedUrl.protocol === "https:" &&
-                allowedHosts.includes(parsedUrl.hostname)
-              )
+              parsedUrl.protocol !== "https:" ||
+              !allowedHosts.includes(parsedUrl.hostname)
             )
               return;
 
@@ -155,13 +151,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
             const id = tab.id;
 
             chrome.tabs.get(id, (existingTab) => {
-              if (chrome.runtime.lastError || !existingTab) {
-                console.log("Tab không tồn tại hoặc đã đóng.");
-              } else {
-                chrome.tabs.remove(id, () => {
-                  console.log("Cưỡng bức đóng tab để giải phóng tài nguyên.");
-                });
-              }
+              if (!chrome.runtime.lastError && existingTab)
+                chrome.tabs.remove(id);
             });
           }, 5000);
         },
