@@ -5,7 +5,7 @@ export interface IExecute {
   passwordField: string;
   url: string | (() => string);
   postFunc?: (input: Response) => void | Promise<void>;
-  conditionFunc?: () => Promise<boolean> | boolean;
+  conditionFunc?: (data: IAccount) => Promise<boolean> | boolean;
   handleError?: () => void;
   extendFields?: (formData: FormData | URLSearchParams) => void | Promise<void>;
   isFormData?: boolean;
@@ -24,9 +24,8 @@ export async function execute({
   if (typeof window === "undefined") return;
 
   window.initAutoLogin = async (data: IAccount) => {
-    if (!(await conditionFunc())) return;
-
     if (data.username && data.password) {
+      if (!(await conditionFunc(data))) return;
       const formData = isFormData ? new FormData() : new URLSearchParams();
       formData.append(usernameField, data.username);
       formData.append(passwordField, data.password);

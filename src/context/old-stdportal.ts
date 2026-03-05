@@ -10,17 +10,17 @@ execute({
   postFunc: async (res) => {
     window.location.href = (await res.json()).url;
   },
-  conditionFunc: async () => {
+  conditionFunc: async ({ username }) => {
     try {
       const response = await fetch(
-        "https://old-stdportal.tdtu.edu.vn/home/GetSuKienSapDienRa",
+        "https://old-stdportal.tdtu.edu.vn/main/thongtinsinhvien/family_getall",
         { method: "Post" },
       );
 
       if (response.ok) {
-        const data = await response.text();
+        const data = (await response.json()) as object[];
 
-        return data !== "[]";
+        return !data.some((i) => i["StudentID"] == username);
       }
     } catch (e) {
       console.log(e);
