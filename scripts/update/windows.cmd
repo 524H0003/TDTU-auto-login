@@ -51,7 +51,7 @@ echo [2/3] Dang tai file...
 curl -L -o latest_release.zip "!DOWNLOAD_URL!"
 
 echo [3/3] Dang giai nen...
-tar -xf latest_release.zip -C "%DEST_DIR%"
+tar -xf latest_release.zip -C "../%DEST_DIR%"
 
 if exist latest_release.zip del latest_release.zip
 echo ===========================================
