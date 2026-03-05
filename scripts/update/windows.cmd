@@ -4,7 +4,8 @@ setlocal enabledelayedexpansion
 :: --- CẤU HÌNH ---
 set REPO=524H0003/TDTU-auto-login
 set "CURRENT_DIR=%~dp0"
-set "DEST_DIR=%CURRENT_DIR:\=/%"
+for %%I in ("%START_DIR%..") do set "PARENT_DIR=%%~dpI"
+set "DEST_DIR=!PARENT_DIR:\=/!"
 :: ----------------
 
 echo [1/3] Dang lay metadata tu GitHub...
@@ -51,7 +52,7 @@ echo [2/3] Dang tai file...
 curl -L -o latest_release.zip "!DOWNLOAD_URL!"
 
 echo [3/3] Dang giai nen...
-tar -xf latest_release.zip -C "../%DEST_DIR%"
+tar -xf latest_release.zip -C "%DEST_DIR%"
 
 if exist latest_release.zip del latest_release.zip
 echo ===========================================
