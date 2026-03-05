@@ -10,20 +10,17 @@ execute({
   postFunc: async (res) => {
     window.location.href = (await res.json()).url;
   },
-  conditionFunc: async ({ username }) => {
+  conditionFunc: async () => {
     try {
       const response = await fetch(
-        "https://old-stdportal.tdtu.edu.vn/main/thongtinsinhvien/family_getall",
+        "https://old-stdportal.tdtu.edu.vn/Alert/ThongBaoNotification",
         { method: "Post" },
       );
 
       if (response.ok) {
-        const data = (await response.json()) as object[];
+        const data = await response.text();
 
-        return (
-          !data.some((i) => i["StudentID"] == username) &&
-          window.location.pathname !== "/Login/Index"
-        );
+        return data !== "[]" && window.location.pathname !== "/Login/Index";
       }
     } catch (e) {
       console.log(e);
