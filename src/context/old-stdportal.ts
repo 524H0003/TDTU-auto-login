@@ -20,7 +20,10 @@ execute({
       if (response.ok) {
         const data = (await response.json()) as object[];
 
-        return !data.some((i) => i["StudentID"] == username);
+        return (
+          !data.some((i) => i["StudentID"] == username) &&
+          window.location.pathname !== "/Login/Index"
+        );
       }
     } catch (e) {
       console.log(e);

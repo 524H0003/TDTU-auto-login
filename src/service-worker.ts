@@ -113,18 +113,37 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         "https://dkmh.tdtu.edu.vn/default.aspx",
       );
 
-      chrome.tabs.create({ url: url.toString(), active: false }, (tab) => {
-        chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
-          if (tabId === tab.id && info.status === "complete") {
-            chrome.tabs.onUpdated.removeListener(listener);
+      chrome.tabs.create(
+        { url: url.toString(), pinned: true, active: false },
+        (tab) => {
+          chrome.tabs.onUpdated.addListener(
+            function listener(tabId, info, updatedTab) {
+              if (tabId === tab.id && info.status === "complete") {
+                if (
+                  updatedTab.url.startsWith("https://dkmh.tdtu.edu.vn") ||
+                  updatedTab.url.startsWith(
+                    "https://old-stdportal.tdtu.edu.vn/",
+                  )
+                ) {
+                  chrome.tabs.onUpdated.removeListener(listener);
 
-            setTimeout(() => {
-              chrome.tabs.remove(tabId);
-              console.log("Đã làm mới cookie và đóng tab " + tab.url);
-            }, 500);
-          }
-        });
-      });
+                  setTimeout(
+                    () =>
+                      chrome.tabs.remove(tabId, () => {
+                        if (chrome.runtime.lastError) {
+                          console.log("Tab đã bị đóng thủ công trước đó.");
+                        } else {
+                          console.log("Đã làm mới cookie và đóng tab an toàn");
+                        }
+                      }),
+                    1000,
+                  );
+                }
+              }
+            },
+          );
+        },
+      );
     });
   }
 });
