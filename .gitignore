@@ -6,3 +6,5 @@ src/styles/tailwind.css
 .env
 release.zip
 update/*
+scripts/cve/*
+!scripts/cve/*.bat
