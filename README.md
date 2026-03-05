@@ -21,3 +21,8 @@
 - Thêm tiện ích theo hướng dẫn
   [Chi tiết](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
 - Mở tiện ích, điền thông tin sinh viên và sử dụng
+
+# Hướng dẫn cập nhật
+
+- Mở thư mục `update` trong thư mục chứa tiện mục
+- Chạy mã thực thi có tên trùng với hệ điều hành

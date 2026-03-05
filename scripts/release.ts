@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { cpSync, readFileSync, writeFileSync } from "node:fs";
 
 const version = process.argv[2];
 if (!version) {
@@ -12,6 +12,8 @@ const manifest = JSON.parse(readFileSync("./manifest.json", "utf-8"));
 manifest.version = version.split("-")[0];
 
 writeFileSync("./manifest.json", JSON.stringify(manifest, null, 2));
+
+cpSync("./scripts/update", "./dist/update", { recursive: true, force: true });
 
 const zipPath = "release.zip";
 
