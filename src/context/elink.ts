@@ -13,7 +13,9 @@ execute({
       params = new URLSearchParams(window.location.search),
       service = params.get("service");
 
-    url.searchParams.append("service", service);
+    if (service !== null) {
+      url.searchParams.append("service", service);
+    }
 
     return url.toString();
   },
