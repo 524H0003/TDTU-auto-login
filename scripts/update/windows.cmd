@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 :: --- CẤU HÌNH ---
 set REPO=524H0003/TDTU-auto-login
 set "CURRENT_DIR=%~dp0"
-for %%I in ("%CURRENT_DIR%..") do set "PARENT_DIR=%%~dpI"
+for %%I in ("%CURRENT_DIR%.") do set "PARENT_DIR=%%~dpI"
 set "DEST_DIR=!PARENT_DIR:\=/!"
 :: ----------------
 
