@@ -5,4 +5,4 @@ reports/
 src/styles/tailwind.css
 .env
 release.zip
-update/
+update/*
