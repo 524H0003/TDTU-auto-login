@@ -1,6 +1,6 @@
 {
   "name": "tdtu-auto-login",
-  "version": "1.4.2",
+  "version": "1.4.3-dev.1",
   "private": "true",
   "scripts": {
     "commit": "cz",
