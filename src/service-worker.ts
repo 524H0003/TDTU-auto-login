@@ -66,13 +66,14 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (changeInfo.status === "complete" && tab.url && TDTURegex.test(tab.url)) {
-    const target = tab.url!.split(".")[0]!.split("/").at(-1),
-      module = await import(`./context/${target}.ts`),
-      runOnUpdate = module.runOnUpdate || false;
+  if (!(changeInfo.status === "complete" && tab.url && TDTURegex.test(tab.url)))
+    return;
 
-    if (runOnUpdate) executeScript(tab);
-  }
+  const target = tab.url!.split(".")[0]!.split("/").at(-1),
+    module = await import(`./context/${target}.ts`),
+    runOnUpdate = module.runOnUpdate || false;
+
+  if (runOnUpdate) executeScript(tab);
 });
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
@@ -116,32 +117,55 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       chrome.tabs.create(
         { url: url.toString(), pinned: true, active: false },
         (tab) => {
-          chrome.tabs.onUpdated.addListener(
-            function listener(tabId, info, updatedTab) {
-              if (tabId === tab.id && info.status === "complete") {
-                if (
-                  updatedTab.url.startsWith("https://dkmh.tdtu.edu.vn") ||
+          function listener(
+            tabId: number,
+            info: chrome.tabs.OnUpdatedInfo,
+            updatedTab: chrome.tabs.Tab,
+          ) {
+            if (
+              !(
+                tabId === tab.id &&
+                info.status === "complete" &&
+                (updatedTab.url.startsWith("https://dkmh.tdtu.edu.vn") ||
                   updatedTab.url.startsWith(
                     "https://old-stdportal.tdtu.edu.vn/",
-                  )
-                ) {
-                  chrome.tabs.onUpdated.removeListener(listener);
+                  ))
+              )
+            )
+              return;
 
-                  setTimeout(
-                    () =>
-                      chrome.tabs.remove(tabId, () => {
-                        if (chrome.runtime.lastError) {
-                          console.log("Tab đã bị đóng thủ công trước đó.");
-                        } else {
-                          console.log("Đã làm mới cookie và đóng tab an toàn");
-                        }
-                      }),
-                    1000,
-                  );
-                }
+            chrome.tabs.onUpdated.removeListener(listener);
+
+            setTimeout(
+              () =>
+                chrome.tabs.remove(tabId, () => {
+                  if (chrome.runtime.lastError) {
+                    console.log("Tab đã bị đóng thủ công trước đó.");
+                  } else {
+                    console.log("Đã làm mới cookie và đóng tab an toàn");
+                  }
+                }),
+              1000,
+            );
+          }
+
+          chrome.tabs.onUpdated.addListener(listener);
+
+          setTimeout(() => {
+            chrome.tabs.onUpdated.removeListener(listener);
+
+            const id = tab.id;
+
+            chrome.tabs.get(id, (existingTab) => {
+              if (chrome.runtime.lastError || !existingTab) {
+                console.log("Tab không tồn tại hoặc đã đóng.");
+              } else {
+                chrome.tabs.remove(id, () => {
+                  console.log("Cưỡng bức đóng tab để giải phóng tài nguyên.");
+                });
               }
-            },
-          );
+            });
+          }, 5000);
         },
       );
     });
