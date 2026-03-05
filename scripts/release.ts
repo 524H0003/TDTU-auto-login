@@ -13,13 +13,15 @@ manifest.version = version.split("-")[0];
 
 writeFileSync("./manifest.json", JSON.stringify(manifest, null, 2));
 
-cpSync("./scripts/update", "./dist/update", { recursive: true, force: true });
+cpSync("./scripts/update", "./update", { recursive: true, force: true });
 
 const zipPath = "release.zip";
 
 console.log(`📦 Đang nén file cho version: ${version}...`);
 
-execSync(`zip -r ${zipPath} dist public manifest.json`, { stdio: "inherit" });
+execSync(`zip -r ${zipPath} dist public manifest.json update`, {
+  stdio: "inherit",
+});
 
 console.log(`✅ Đã tạo file zip: ${zipPath}`);
 

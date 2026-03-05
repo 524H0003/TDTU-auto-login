@@ -21,7 +21,8 @@
     "reports": true,
     "next-env.d.ts": true,
     "src/graphQL": true,
-    "**/release": true
+    "**/release": true,
+    "update": true
   },
   "svg.preview.background": "transparent",
   "explorerExclude.backup": {},
