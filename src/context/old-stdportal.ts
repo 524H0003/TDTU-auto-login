@@ -13,7 +13,7 @@ execute({
   conditionFunc: async () => {
     try {
       const response = await fetch(
-        "https://old-stdportal.tdtu.edu.vn/Alert/ThongBaoNotification",
+        "https://old-stdportal.tdtu.edu.vn/home/GetSuKienSapDienRa",
         { method: "Post" },
       );
 
