@@ -13,7 +13,9 @@ execute({
       params = new URLSearchParams(window.location.search),
       service = params.get("service");
 
-    url.searchParams.append("service", service);
+    if (service !== null) {
+      url.searchParams.append("service", service);
+    }
 
     return url.toString();
   },
@@ -27,7 +29,7 @@ execute({
       const executionValue = executionInput.value;
       formData.append("execution", executionValue);
     } else {
-      console.error('Không tìm thấy inputinput[name="execution"]');
+      console.error('Không tìm thấy input[name="execution"]');
     }
 
     formData.append("_eventId", "submit");
