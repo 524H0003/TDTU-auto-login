@@ -18,7 +18,7 @@
     "gecko": {
       "id": "TakahashiNguyen_83152264@users.noreply.github.com",
       "data_collection_permissions": {
-        "required": [],
+        "required": ["websiteContent"],
         "optional": []
       }
     }
