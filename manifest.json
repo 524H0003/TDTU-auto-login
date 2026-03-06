@@ -10,7 +10,13 @@
   "permissions": ["storage", "scripting", "alarms", "tabs"],
   "host_permissions": ["*://*.tdtu.edu.vn/*", "*://*.tdtu.edu.vn:*/*"],
   "background": {
+    "scripts": ["./dist/service-worker.js"],
     "service_worker": "./dist/service-worker.js",
     "type": "module"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "83152264+TakahashiNguyen@users.noreply.github.com"
+    }
   }
 }
