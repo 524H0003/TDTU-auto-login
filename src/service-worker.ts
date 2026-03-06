@@ -103,60 +103,66 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       },
     );
 
-    chrome.storage.local.get<IAppSetting>(["active"], async ({ active }) => {
-      if (!active) return;
+    chrome.storage.local.get<IAppSetting>(
+      ["active", "notOpenRefreshCookieTab"],
+      async ({ active, notOpenRefreshCookieTab }) => {
+        if (!active || notOpenRefreshCookieTab) return;
 
-      const hostUrl = "https://sso.tdt.edu.vn/Authenticate.aspx",
-        url = new URL(hostUrl);
+        const hostUrl = "https://sso.tdt.edu.vn/Authenticate.aspx",
+          url = new URL(hostUrl);
 
-      url.searchParams.append(
-        "ReturnUrl",
-        "https://dkmh.tdtu.edu.vn/default.aspx",
-      );
+        url.searchParams.append(
+          "ReturnUrl",
+          "https://dkmh.tdtu.edu.vn/default.aspx",
+        );
 
-      chrome.tabs.create(
-        { url: url.toString(), pinned: true, active: false },
-        (tab) => {
-          function listener(
-            tabId: number,
-            info: chrome.tabs.OnUpdatedInfo,
-            updatedTab: chrome.tabs.Tab,
-          ) {
-            if (
-              !updatedTab.url ||
-              tabId !== tab.id ||
-              info.status !== "complete"
-            )
-              return;
+        chrome.tabs.create(
+          { url: url.toString(), pinned: true, active: false },
+          (tab) => {
+            function listener(
+              tabId: number,
+              info: chrome.tabs.OnUpdatedInfo,
+              updatedTab: chrome.tabs.Tab,
+            ) {
+              if (
+                !updatedTab.url ||
+                tabId !== tab.id ||
+                info.status !== "complete"
+              )
+                return;
 
-            const parsedUrl = new URL(updatedTab.url),
-              allowedHosts = ["dkmh.tdtu.edu.vn", "old-stdportal.tdtu.edu.vn"];
+              const parsedUrl = new URL(updatedTab.url),
+                allowedHosts = [
+                  "dkmh.tdtu.edu.vn",
+                  "old-stdportal.tdtu.edu.vn",
+                ];
 
-            if (
-              parsedUrl.protocol !== "https:" ||
-              !allowedHosts.includes(parsedUrl.hostname)
-            )
-              return;
+              if (
+                parsedUrl.protocol !== "https:" ||
+                !allowedHosts.includes(parsedUrl.hostname)
+              )
+                return;
 
-            chrome.tabs.onUpdated.removeListener(listener);
+              chrome.tabs.onUpdated.removeListener(listener);
 
-            setTimeout(() => chrome.tabs.remove(tabId), 1000);
-          }
+              setTimeout(() => chrome.tabs.remove(tabId), 1000);
+            }
 
-          chrome.tabs.onUpdated.addListener(listener);
+            chrome.tabs.onUpdated.addListener(listener);
 
-          setTimeout(() => {
-            chrome.tabs.onUpdated.removeListener(listener);
+            setTimeout(() => {
+              chrome.tabs.onUpdated.removeListener(listener);
 
-            const id = tab.id;
+              const id = tab.id;
 
-            chrome.tabs.get(id, (existingTab) => {
-              if (!chrome.runtime.lastError && existingTab)
-                chrome.tabs.remove(id);
-            });
-          }, 5000);
-        },
-      );
-    });
+              chrome.tabs.get(id, (existingTab) => {
+                if (!chrome.runtime.lastError && existingTab)
+                  chrome.tabs.remove(id);
+              });
+            }, 5000);
+          },
+        );
+      },
+    );
   }
 });
