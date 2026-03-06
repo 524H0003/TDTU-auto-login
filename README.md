@@ -19,7 +19,8 @@
   dạng **.zip**
 - Giải nén tập tin ở vị trí có thể sử dụng lâu dài
 - Thêm tiện ích theo hướng dẫn
-  [Chi tiết](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+  [Google Chrome](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+  [Mozilla Firefox](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
 - Mở tiện ích, điền thông tin sinh viên và sử dụng
 
 # Hướng dẫn cập nhật
