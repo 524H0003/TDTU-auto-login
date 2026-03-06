@@ -1,7 +1,7 @@
-import { Settings } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import packageJson from "../package.json";
+import SettingsButton from "./components/settings";
 import { Button } from "./components/shadcn/ui/button";
 import {
   Field,
@@ -98,9 +98,8 @@ export default function PopupPage() {
         <Button type="submit" onClick={handleSave}>
           Lưu thông tin
         </Button>
-        <Button variant="outline" size="icon">
-          <Settings />
-        </Button>
+
+        <SettingsButton />
       </Field>
     </FieldGroup>
   );

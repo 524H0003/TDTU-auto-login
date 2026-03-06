@@ -6,6 +6,7 @@ export interface IAccount {
 export interface IAppSetting {
   interval: number;
   active: boolean;
+  notOpenRefreshCookieTab: boolean;
 }
 
 export interface LocalStorage extends IAccount, IAppSetting {}
