@@ -1,3 +1,4 @@
+import { Settings } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import packageJson from "../package.json";
@@ -5,7 +6,6 @@ import { Button } from "./components/shadcn/ui/button";
 import {
   Field,
   FieldDescription,
-  FieldError,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -19,8 +19,7 @@ export default function PopupPage() {
   const [username, setUsername] = useState(""),
     [password, setPassword] = useState(""),
     [interval, setIntervalValue] = useState<number>(3),
-    [active, setActive] = useState<boolean>(false),
-    [status, setStatus] = useState("");
+    [active, setActive] = useState<boolean>(false);
 
   useEffect(() => {
     chrome.storage.local.get<LocalStorage>(
@@ -36,10 +35,6 @@ export default function PopupPage() {
 
   const handleSave = () => {
     chrome.storage.local.set({ username, password, interval }, () => {
-      setStatus("✅ Đã lưu cài đặt!");
-
-      setTimeout(() => setStatus(""), 2000);
-
       if (typeof chrome !== "undefined" && chrome.runtime) {
         chrome.runtime.sendMessage({
           action: "start_alarm",
@@ -99,14 +94,13 @@ export default function PopupPage() {
           Thời gian cập nhật thông tin đăng nhập
         </FieldDescription>
       </Field>
-      <Field orientation="horizontal">
+      <Field orientation="horizontal" className="justify-between">
         <Button type="submit" onClick={handleSave}>
           Lưu thông tin
         </Button>
-        <FieldError
-          className="text-green-400"
-          errors={[{ message: status || " " }]}
-        />
+        <Button variant="outline" size="icon">
+          <Settings />
+        </Button>
       </Field>
     </FieldGroup>
   );
