@@ -1,4 +1,4 @@
-import { execute } from ".";
+import { execute, getHiddenInput } from ".";
 
 function redirectTo() {
   window.location.href += "";
@@ -21,17 +21,7 @@ execute({
   },
   isFormData: false,
   extendFields(formData) {
-    const executionInput = document.querySelector<HTMLInputElement>(
-      'input[name="execution"]',
-    );
-
-    if (executionInput) {
-      const executionValue = executionInput.value;
-      formData.append("execution", executionValue);
-    } else {
-      console.error('Không tìm thấy input[name="execution"]');
-    }
-
+    formData.append("execution", getHiddenInput('input[name="execution"]'));
     formData.append("_eventId", "submit");
     formData.append("geolocation", "");
     formData.append("submit", "LOGIN");
