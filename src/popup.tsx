@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import packageJson from "../package.json";
 import SettingsButton from "./components/settings";
-import { Button } from "./components/shadcn/ui/button";
 import {
   Field,
   FieldDescription,
@@ -33,17 +32,6 @@ export default function PopupPage() {
     );
   }, []);
 
-  const handleSave = () => {
-    chrome.storage.local.set({ username, password, interval }, () => {
-      if (typeof chrome !== "undefined" && chrome.runtime) {
-        chrome.runtime.sendMessage({
-          action: "start_alarm",
-          interval: Number(interval),
-        });
-      }
-    });
-  };
-
   return (
     <FieldGroup className="p-4">
       <FieldSet>
@@ -67,7 +55,12 @@ export default function PopupPage() {
         <Input
           id="fieldgroup-mssv"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            chrome.storage.local.set<LocalStorage>({ username: value }, () =>
+              setUsername(value),
+            );
+          }}
         />
       </Field>
       <Field>
@@ -76,7 +69,12 @@ export default function PopupPage() {
           id="fieldgroup-password"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            chrome.storage.local.set<LocalStorage>({ password: value }, () =>
+              setPassword(value),
+            );
+          }}
         />
       </Field>
       <Field>
@@ -87,7 +85,12 @@ export default function PopupPage() {
           id="fieldgroup-interval"
           type="number"
           value={interval}
-          onChange={(e) => setIntervalValue(Number(e.target.value))}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            chrome.storage.local.set<LocalStorage>({ interval: value }, () =>
+              setIntervalValue(value),
+            );
+          }}
           min="1"
         />
         <FieldDescription>
@@ -95,10 +98,6 @@ export default function PopupPage() {
         </FieldDescription>
       </Field>
       <Field orientation="horizontal" className="justify-between">
-        <Button type="submit" onClick={handleSave}>
-          Lưu thông tin
-        </Button>
-
         <SettingsButton />
       </Field>
     </FieldGroup>

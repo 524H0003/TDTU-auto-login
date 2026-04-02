@@ -4,7 +4,7 @@ execute({
   usernameField: "username",
   passwordField: "password",
   url: location.origin,
-  postFunc() {
+  handleError() {
     window.close();
   },
   isFormData: false,
