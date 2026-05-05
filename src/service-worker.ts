@@ -15,37 +15,52 @@ function createAlarm(minutes: number) {
   console.log(`Đã đặt báo thức chạy mỗi ${minutes} phút.`);
 }
 
+const executingTabs = new Set<number>();
+
 function executeScript(tab: chrome.tabs.Tab) {
+  if (!tab.id || executingTabs.has(tab.id)) {
+    console.log("Script đang chạy trên tab này hoặc tab không hợp lệ, bỏ qua.");
+    return;
+  } else executingTabs.add(tab.id);
+
   const target = tab.url!.split(".")[0]!.split("/").at(-1);
 
   chrome.storage.local.get<LocalStorage>(
     ["active", "username", "password"],
     async ({ active, username, password }) => {
-      if (!active) return;
+      try {
+        if (!active) return;
 
-      await chrome.scripting
-        .executeScript({
-          world: "MAIN",
+        await chrome.scripting
+          .executeScript({
+            world: "MAIN",
+            target: { tabId: tab.id! },
+            files: ["./dist/context/" + target + ".js"],
+          })
+          .then(() => {
+            console.log("Đã chèn thành công!");
+          })
+          .catch((err) => {
+            console.error("Lỗi khi chèn script\n", err);
+          });
+
+        await chrome.scripting.executeScript({
           target: { tabId: tab.id! },
-          files: ["./dist/context/" + target + ".js"],
-        })
-        .then(() => {
-          console.log("Đã chèn thành công!");
-        })
-        .catch((err) => {
-          console.error("Lỗi khi chèn script\n", err);
+          world: "MAIN",
+          args: [{ username, password }],
+          func: (creds) => {
+            if (typeof window.initAutoLogin === "function") {
+              window.initAutoLogin(creds);
+            }
+          },
         });
 
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id! },
-        world: "MAIN",
-        args: [{ username, password }],
-        func: (creds) => {
-          if (typeof window.initAutoLogin === "function") {
-            window.initAutoLogin(creds);
-          }
-        },
-      });
+        console.log("Đã thực thi login thành công!");
+      } catch (err) {
+        console.error("Lỗi khi chèn/thực thi script\n", err);
+      } finally {
+        executingTabs.delete(tab.id!);
+      }
     },
   );
 }
