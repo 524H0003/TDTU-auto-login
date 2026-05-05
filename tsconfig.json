@@ -6,6 +6,7 @@
       "@/*": ["./*"]
     },
     "jsx": "react-jsx",
+    "types": ["chrome"],
     "resolveJsonModule": true
   }
 }

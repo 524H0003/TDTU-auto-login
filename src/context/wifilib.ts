@@ -5,6 +5,7 @@ execute({
   passwordField: "password",
   url: location.origin,
   handleError() {
+    window.open("", "_self", "");
     window.close();
   },
   isFormData: false,
