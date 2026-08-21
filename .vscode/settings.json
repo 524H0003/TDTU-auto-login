@@ -29,5 +29,6 @@
   "editor.rulers": [80],
   "editor.wordWrap": "on",
   "typescript.tsserver.log": "verbose",
-  "editor.foldingImportsByDefault": true
+  "editor.foldingImportsByDefault": true,
+  "explorerExcludeManager.backup": {}
 }

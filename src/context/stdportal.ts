@@ -1,1 +1,33 @@
-export * from "./old-stdportal";
+import { execute } from ".";
+
+execute({
+  usernameField: "user",
+  passwordField: "pass",
+  url: () =>
+    "https://stdportal.tdtu.edu.vn/Login/SignIn?ReturnURL=" +
+    window.location.origin +
+    window.location.pathname,
+  postFunc: async (res) => {
+    window.location.href = (await res.json()).url;
+  },
+  conditionFunc: async () => {
+    try {
+      const response = await fetch(
+        "https://stdportal.tdtu.edu.vn/Alert/ThongBaoNotification",
+        { method: "Post" },
+      );
+
+      if (response.ok) {
+        const data = await response.text();
+
+        return data !== "[]" && window.location.pathname !== "/Login/Index";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    return true;
+  },
+});
+
+export const runOnUpdate = true;
