@@ -29,8 +29,6 @@ function executeScript(tab: chrome.tabs.Tab) {
     ["active", "username", "password"],
     async ({ active, username, password }) => {
       try {
-        if (!active) return;
-
         await chrome.scripting
           .executeScript({
             world: "MAIN",
@@ -43,6 +41,8 @@ function executeScript(tab: chrome.tabs.Tab) {
           .catch((err) => {
             console.error("Lỗi khi chèn script\n", err);
           });
+
+        if (!active) return;
 
         await chrome.scripting.executeScript({
           target: { tabId: tab.id! },
