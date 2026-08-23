@@ -31,7 +31,7 @@
     "clsx": "^2.1.1",
     "commitizen": "^4.3.2",
     "dotenv": "^17.4.2",
-    "esbuild": "^0.27.7",
+    "esbuild": "^0.28.1",
     "eslint": "^10.9.0",
     "eslint-plugin-unused-imports": "^4.4.1",
     "lucide-react": "^0.575.0",
