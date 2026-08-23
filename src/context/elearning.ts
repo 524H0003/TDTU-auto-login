@@ -13,7 +13,7 @@ execute({
     if (!sesskey)
       return !window.location.pathname.split("/")[1].includes(".php");
 
-    const userDiv = document.querySelector<HTMLDivElement>("div[data-user-id]");
+    const userDiv = document.querySelector<HTMLDivElement>("div[data-userid]");
 
     if (!userDiv) return true;
 
@@ -33,7 +33,7 @@ execute({
           {
             index: 0,
             methodname: "core_course_get_recent_courses",
-            args: { userid: userDiv.dataset.userId, limit: 10 },
+            args: { userid: userDiv.dataset.userid, limit: 10 },
           },
         ]),
       );
