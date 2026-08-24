@@ -1,8 +1,8 @@
 import { type IAccount } from "../types";
 
 export interface IExecute {
-  usernameField: string;
-  passwordField: string;
+  usernameField?: string;
+  passwordField?: string;
   url: string | (() => string);
   postFunc?: (input: Response) => void | Promise<void>;
   conditionFunc?: (data: IAccount) => Promise<boolean> | boolean;
@@ -12,8 +12,8 @@ export interface IExecute {
 }
 
 export async function execute({
-  usernameField,
-  passwordField,
+  usernameField = "username",
+  passwordField = "password",
   url,
   postFunc = () => {},
   conditionFunc = () => true,
