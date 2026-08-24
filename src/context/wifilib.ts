@@ -1,8 +1,6 @@
 import { execute, getHiddenInput } from ".";
 
 execute({
-  usernameField: "username",
-  passwordField: "password",
   url: location.origin,
   handleError() {
     window.open("", "_self", "");
