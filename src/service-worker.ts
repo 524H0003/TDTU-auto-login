@@ -179,7 +179,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
             setTimeout(() => {
               chrome.tabs.onUpdated.removeListener(listener);
 
-              const id = tab.id;
+              const id = tab.id!;
 
               chrome.tabs.get(id, (existingTab) => {
                 if (!chrome.runtime.lastError && existingTab)
