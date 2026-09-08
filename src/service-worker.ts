@@ -17,13 +17,24 @@ function createAlarm(minutes: number) {
 
 const executingTabs = new Set<number>();
 
+const getTarget = (url: string) => {
+  let target = url.split(".")[0]!.split("/").at(-1);
+
+  if (target?.startsWith("wifi")) {
+    const number = target.split("wifi")[1];
+    if (number.length == 2) target = "wifixx";
+  }
+
+  return target;
+};
+
 function executeScript(tab: chrome.tabs.Tab) {
   if (!tab.id || executingTabs.has(tab.id)) {
     console.log("Script đang chạy trên tab này hoặc tab không hợp lệ, bỏ qua.");
     return;
   } else executingTabs.add(tab.id);
 
-  const target = tab.url!.split(".")[0]!.split("/").at(-1);
+  const target = getTarget(tab.url!);
 
   chrome.storage.local.get<LocalStorage>(
     ["active", "username", "password"],
@@ -84,7 +95,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status !== "complete" || !tab.url || !TDTURegex.test(tab.url))
     return;
 
-  const target = tab.url!.split(".")[0]!.split("/").at(-1),
+  const target = getTarget(tab.url),
     module = await import(`./context/${target}.ts`),
     runOnUpdate = module.runOnUpdate || false;
 
@@ -168,7 +179,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
             setTimeout(() => {
               chrome.tabs.onUpdated.removeListener(listener);
 
-              const id = tab.id;
+              const id = tab.id!;
 
               chrome.tabs.get(id, (existingTab) => {
                 if (!chrome.runtime.lastError && existingTab)
