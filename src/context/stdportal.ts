@@ -1,3 +1,5 @@
+import { clearAllCookies } from "@/lib/utils";
+
 import { execute } from ".";
 
 execute({
@@ -24,6 +26,7 @@ execute({
       }
     } catch (e) {
       console.log(e);
+      clearAllCookies();
     }
 
     return true;
